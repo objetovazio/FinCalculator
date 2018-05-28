@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2000
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "IFES.ADM.FinCalc.Business", "IFES.ADM.FinCalc.Business\IFES.ADM.FinCalc.Business.pyproj", "{798F813E-F164-4B9B-9D8D-A0E2F60131A0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{798F813E-F164-4B9B-9D8D-A0E2F60131A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{798F813E-F164-4B9B-9D8D-A0E2F60131A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {25E660D9-A1B4-4D1E-AC3C-28538E08F0E9}
+	EndGlobalSection
+EndGlobal
