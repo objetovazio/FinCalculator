@@ -2,7 +2,21 @@ import sys
 from Operacoes import *
 import os
 
-clear = lambda: os.system('cls')
+clear = lambda: os.system('cls');
+
+os.system('color F');
+
+colorGreen = "\x1b[6;30;42m";
+colorRed = "\x1b[1;37;41m";
+colorEnd = "\x1b[0m";
+
+def printMessage(message, sucess):
+    if(sucess):
+        print(colorGreen + message + colorEnd)
+    else:
+        print(colorRed + message + colorEnd)
+    #endIf
+#end printMessage
 
 def floatInput(message):
         return float(input(message).replace(",", "."));
@@ -32,7 +46,7 @@ def JurosCalculate(this, function, message):
         periodo = floatInput("> Digite o periodo: ");
 
         resposta = function(capital, taxa, periodo);
-        print("\nJuros: %.2f | Montante: %.2f" % (resposta, capital + resposta))
+        printMessage("\nJuros: %.2f | Montante: %.2f" % (resposta, capital + resposta), True)
 
         print("\nDeseja realizar essa operação novamente? (S ou N)")
         
@@ -42,7 +56,7 @@ def JurosCalculate(this, function, message):
         #endIf
     except:
         clear()
-        print("\nInsira apenas dados numéricos válidos.")
+        printMessage("\nInsira apenas dados numéricos válidos.", False)
         this(this, function, message)
     #End TryCatch
 #End JurosCalculate
@@ -62,7 +76,7 @@ def DescontoCalculate(this, function, message):
         periodo = floatInput("> Digite o periodo: ");
 
         resposta = function(nominal, taxa, periodo);
-        print("\nDesconto: %.2f | Valor Final: %.2f" % (resposta, nominal - resposta))
+        printMessage("\nDesconto: %.2f | Valor Final: %.2f" % (resposta, nominal - resposta), True)
 
         print("\nDeseja realizar essa operação novamente? (S ou N)")
         
@@ -72,7 +86,7 @@ def DescontoCalculate(this, function, message):
         #endIf
     except:
         clear()
-        print("\nInsira apenas dados numéricos válidos.")
+        printMessage("\nInsira apenas dados numéricos válidos.", False);
         this(this, function, message)
     #End TryCatch
 #end DescontoComercial
@@ -95,7 +109,7 @@ def main():
         validation, typeOperation = intTryParse(typeOperation);
         if(not validation or typeOperation > 4):
             typeOperation = 99;
-            print("\nSelecione uma opção válida.")
+            printMessage("\nSelecione uma opção válida.", False);
             continue;
         #end IF
 
