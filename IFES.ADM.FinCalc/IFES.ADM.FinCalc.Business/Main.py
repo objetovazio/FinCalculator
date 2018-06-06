@@ -6,9 +6,10 @@ clear = lambda: os.system('cls');
 
 os.system('color F');
 
-colorGreen = "\x1b[6;30;42m";
-colorRed = "\x1b[1;37;41m";
-colorEnd = "\x1b[0m";
+colorGreen = '\033[92m';
+colorRed = '\033[91m';
+colorEnd = '\x1b[0m';
+WARNING = '\033[93m';
 
 def printMessage(message, sucess):
     if(sucess):
@@ -17,6 +18,17 @@ def printMessage(message, sucess):
         print(colorRed + message + colorEnd)
     #endIf
 #end printMessage
+
+def printWarning(message):
+    print(WARNING + message + colorEnd);
+#end printMessage
+
+def printResultJuros(juros, capital, taxa, periodo):
+    printMessage("\nCapital: %.2f" % capital, True)
+    printMessage("Taxa: %.2f%%" % taxa, True)
+    printMessage("Periodo: %.2f" % periodo, True)
+    printMessage("Resultado final:\tJuros: %.2f | Montante: %.2f" % (juros, (capital + juros)), True)
+#end printResultJuros
 
 def floatInput(message):
         return float(input(message).replace(",", "."));
@@ -31,6 +43,14 @@ def printOptions():
     print("  0. Sair")
 #end printOptions
 
+def printJurosSimplestOptions():
+    print("\nO que precisa descobrir? ");
+    print("  1. Juros");
+    print("  2. Capital");
+    print("  3. Taxa");
+    print("  4. Periodo");
+#end printOptions
+
 def intTryParse(val):
     try:
         return True, int(val);
@@ -38,15 +58,103 @@ def intTryParse(val):
         return False, -1;
 #end intTryParse
 
-def JurosCalculate(this, function, message):
-    print("\n * Operação de " + message + " foi selecionada.\n")
+def operatorValidation():
+    typeOperation = input("\n > ")
+        
+    validation, typeOperation = intTryParse(typeOperation);
+    if(not validation or typeOperation > 4):
+        typeOperation = 99;
+        printMessage("\nSelecione uma opção válida.", False);
+        return 99, False;
+    #end IF
+
+    return typeOperation, True;
+#end 
+
+############## JUROS #######################
+def JurosCalculateJuros(this, function, message):
+    print("\n * Operação de " + message + " foi selecionada.")
+    printWarning("\t Descobrir Juros\n");
     try:
         capital = floatInput("> Digite o valor do capital: ");
         taxa = floatInput("> Digite o valor da taxa em %: ");
         periodo = floatInput("> Digite o periodo: ");
 
         resposta = function(capital, taxa, periodo);
-        printMessage("\nJuros: %.2f | Montante: %.2f" % (resposta, capital + resposta), True)
+        printResultJuros(resposta, capital, taxa, periodo);
+
+        print("\nDeseja realizar essa operação novamente? (S ou N)")
+        
+        if(input("\n> ").upper() == "S"):
+            clear()
+            this(this, function, message)
+        #endIf
+    except:
+        clear()
+        printMessage("\nInsira apenas dados numéricos válidos.", False)
+        this(this, function, message)
+    #End TryCatch
+#End JurosCalculate
+
+def JurosCalculateCapital(this, function, message):
+    print("\n * Operação de " + message + " foi selecionada.")
+    printWarning("\t Descobrir Capital\n")
+    try:
+        juros = floatInput("> Digite o valor do juros: ");
+        taxa = floatInput("> Digite o valor da taxa em %: ");
+        periodo = floatInput("> Digite o periodo: ");
+
+        resposta = function(juros, taxa, periodo);
+        printResultJuros(juros, resposta, taxa, periodo);
+
+        print("\nDeseja realizar essa operação novamente? (S ou N)")
+        
+        if(input("\n> ").upper() == "S"):
+            clear()
+            this(this, function, message)
+        #endIf
+    except:
+        clear()
+        printMessage("\nInsira apenas dados numéricos válidos.", False)
+        this(this, function, message)
+    #End TryCatch
+#End JurosCalculate
+
+def JurosCalculateTaxa(this, function, message):
+    print("\n * Operação de " + message + " foi selecionada.")
+    printWarning("\t Descobrir Taxa\n")
+    try:
+        juros = floatInput("> Digite o valor do juros: ");
+        capital = floatInput("> Digite o valor do capital: ");
+        periodo = floatInput("> Digite o periodo: ");
+
+        resposta = function(juros, capital, periodo);
+        printResultJuros(juros, capital, resposta, periodo);
+
+        print("\nDeseja realizar essa operação novamente? (S ou N)")
+        
+        if(input("\n> ").upper() == "S"):
+            clear()
+            this(this, function, message)
+        #endIf
+    except:
+        clear()
+        printMessage("\nInsira apenas dados numéricos válidos.", False)
+        this(this, function, message)
+    #End TryCatch
+#End JurosCalculate
+
+def JurosCalculatePeriodo(this, function, message):
+    print("\n * Operação de " + message + " foi selecionada.")
+    printWarning("\t Descobrir Periodo\n")
+
+    try:
+        juros = floatInput("> Digite o valor do juros: ");
+        capital = floatInput("> Digite o valor do capital: ");
+        taxa = floatInput("> Digite o valor da taxa em %: ");
+
+        resposta = function(juros, capital, taxa);
+        printResultJuros(juros, capital, taxa, resposta);
 
         print("\nDeseja realizar essa operação novamente? (S ou N)")
         
@@ -63,11 +171,44 @@ def JurosCalculate(this, function, message):
 
 def Juros(operacao, typeOperation):
     if(typeOperation == 1):
-        JurosCalculate(JurosCalculate, operacao.JurosSimples, "Juros Simples")
+        message = "Juros Simples";
+        clear();
+        printJurosSimplestOptions();
+        typeOperationJuros, isValid = operatorValidation();
+
+        if(not isValid):
+            printMessage("Operação Inválida!", False)
+            return;
+        #endIf
+
+        clear()
+
+        if(typeOperationJuros == 1):
+            JurosCalculateJuros(JurosCalculateJuros, operacao.JurosSimplesJuros, message);
+        elif(typeOperationJuros == 2):
+            JurosCalculateCapital(JurosCalculateCapital, operacao.JurosSimplesCapital, message);
+        elif(typeOperationJuros == 3):
+            JurosCalculateTaxa(JurosCalculateTaxa, operacao.JurosSimplesTaxa, message);
+        elif(typeOperationJuros == 4):
+            JurosCalculatePeriodo(JurosCalculatePeriodo, operacao.JurosSimplesPeriodo, message);
+        #End IF
     else:
-        JurosCalculate(JurosCalculate, operacao.JurosCompostos, "Juros Compostos")
+        message = "Juros Compostos";
+        clear();
+        printJurosSimplestOptions();
+        typeOperationJuros, isValid = operatorValidation();
+
+        if(not isValid):
+            printMessage("Operação Inválida!", False)
+            return;
+        #endIf
+
+        clear()
+        #JurosCalculate(JurosCalculate, operacao.JurosCompostosJuros, "Juros Compostos")
+    #End IF
 #end Juros
 
+############## DESCONTO #######################
 def DescontoCalculate(this, function, message):
     print("\n * Operação de " + message + " foi selecionada.\n")
     try:
@@ -104,14 +245,11 @@ def main():
 
     while(typeOperation > 0):
         printOptions();
-        typeOperation = input("\n > ")
-        
-        validation, typeOperation = intTryParse(typeOperation);
-        if(not validation or typeOperation > 4):
-            typeOperation = 99;
-            printMessage("\nSelecione uma opção válida.", False);
+        typeOperation, isValid = operatorValidation();
+
+        if(not isValid):
             continue;
-        #end IF
+        #endIf
 
         clear()
 
