@@ -102,3 +102,4 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+/IFES.ADM.FinCalc/.vs/IFES.ADM.FinCalc/v15/.suo
