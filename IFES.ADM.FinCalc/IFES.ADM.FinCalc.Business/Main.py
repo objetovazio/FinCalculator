@@ -1,7 +1,7 @@
 import sys
 import os
 from Operacoes import *
-from sty import fg, bg, ef, rs
+from sty import fg, bg, ef, rs #pip install sty
 
 clear = lambda: os.system('cls');
 
@@ -9,14 +9,14 @@ os.system('color F');
 
 def printMessage(message, sucess):
     if(sucess):
-        print(fg.green + message + fg.rs)
+        print(fg.li_green + message + fg.rs)
     else:
-        print(fg.red + message + fg.rs)
+        print(fg.li_red + message + fg.rs)
     #endIf
 #end printMessage
 
 def printWarning(message):
-    print(fg.yellow + message + fg.rs);
+    print(fg.li_yellow + message + fg.rs);
 #end printMessage
 
 def printResultJuros(value, capital, taxa, periodo, notMontante = True):
@@ -34,7 +34,7 @@ def printResultDesconto(value, capital, taxa, periodo):
     printMessage("\nNominal: %.2f" % capital, True)
     printMessage("Taxa: %.2f%%" % taxa, True)
     printMessage("Periodo: %.2f" % periodo, True)
-    printMessage("Resultado final:\Desconto: %.2f | Valor Líquido: %.2f" % (value, (capital - value)), True)
+    printMessage("Resultado final:\tDesconto: %.2f | Valor Líquido: %.2f" % (value, (capital - value)), True)
 #end printResultJuros
 
 def floatInput(message):
@@ -419,5 +419,5 @@ def main():
 #end Main()
     
 
-if __name__ == "__main__":
+if __name__.endswith('__main__'):
     sys.exit(int(main() or 0))
